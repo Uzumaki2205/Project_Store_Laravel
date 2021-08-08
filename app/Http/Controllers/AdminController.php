@@ -8,6 +8,7 @@ use App\Products;
 use App\Promotions;
 use App\User;
 use App\Galeries;
+use Carbon\Carbon;
 use Exception;
 use Faker\Provider\Image;
 use Illuminate\Http\Request;
@@ -100,6 +101,64 @@ class AdminController extends Controller
     }
 
     // PRODUCT MANAGER
+
+    // GET Category
+    public function Category()
+    {
+        $cats = \App\Categories::all();
+        return view('admin.category', compact('cats'));
+    }
+
+    // POST Category
+    public function EditCategory(Request $request)
+    {
+        $cat = \App\Categories::Find($request->id);
+        return $cat;
+    }
+
+    // POST Category
+    public function UpdateCategory(Request $request)
+    {
+        $cat = \App\Categories::Find($request->id);
+        $cat->name_category = $request->name_category;
+        $cat->save();
+        return back()->with('success!', "Update Thanh Cong");
+    }
+
+    // public function DeleteCategory(Request $request)
+    // {
+    //     try {
+    //         if (is_array($request->ids)) {
+    //             Products::destroy('id_category', $request->ids);
+    //             Categories::destroy($request->ids);
+    //             return response()->json(['success' => 'Delete Successfully'], 200);
+    //         } else return response()->json(['error' => 'Delete Fail'], 404);
+    //     } catch (Exception $e) {
+    //         return abort(404, $e->getMessage());
+    //     }
+    // }
+
+    // POST CREATE CATEGORY
+    public function CreateCategory(Request $request)
+    {
+        try {
+            $slug = Str::slug($request->name_category);
+
+            $checkSlug = \App\Categories::where('slug_product', $slug);
+            if ($checkSlug->count() == 0)
+                return abort(404, "Slug invalid");
+
+            $cat = new \App\Categories();
+            $cat->name_category = $request->name_category;
+            $cat->slug_category = $slug;
+            $cat->save();
+            return view('admin.category', compact('cats'));
+        } catch (Exception $e) {
+            return back()->with('error!', $e->getMessage());
+        }
+    }
+
+
     // GET /admin/products
     public function AllProduct()
     {
@@ -174,7 +233,20 @@ class AdminController extends Controller
             $image->save();
         }
 
-        return "Success to created";
+        return redirect('/admin/products');
+    }
+
+    public function DeleteProduct(Request $request)
+    {
+        $ids = $request->ids;
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
+                Images::where('id_product', $id)->delete();
+                Products::Find($id)->delete();
+            }
+            return response()->json(['success' => 'Delete Success'], 200);
+        }
+        return response()->json(['error' => 'Delete Fail'], 404);
     }
 
     // IMAGE GALERY MANAGER
@@ -217,5 +289,40 @@ class AdminController extends Controller
 
         return "Error When Upload File";
         //return $request;
+    }
+
+    public function Orders()
+    {
+        $orders = \App\Orders::all()->where('is_active', 0)->groupBy('id_user');
+        return view('admin.order', compact('orders'));
+        //return $orders;
+    }
+
+    public function AcceptOrder(Request $request)
+    {
+        foreach ($request->id as $id) {
+            $order = \App\Orders::Find($id);
+            $order->accept = 1;
+            $order->save();
+        }
+        return back()->with('Success!', 'Data Added!');
+        //return $request;
+    }
+
+    public function DontAcceptOrder(Request $request)
+    {
+        foreach ($request->id as $id) {
+            $order = \App\Orders::Find($id);
+            $order->accept = 0;
+            $order->save();
+        }
+        return back()->with('Success!', 'Data Added!');
+    }
+
+    public function OrderCancel()
+    {
+        $ocs = \App\OrderCancels::all();
+        return view('admin.order_cancel', compact('ocs'));
+        //return $ocs;
     }
 }

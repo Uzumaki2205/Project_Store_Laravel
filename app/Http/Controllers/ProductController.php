@@ -25,11 +25,13 @@ class ProductController extends Controller
         //return $prods;
     }
 
-    // // GET /GetProduct/slug={slug}
-    // public function getProduct($slug) {
-    //     $prod = Products::where('slug', $slug)->first();
-    //     return $prod;
-    // }
+    // GET Category From product
+    public function SearchCategory(Request $request)
+    {
+        $cats = Categories::all();
+        $prods = Products::where('id_category', $request->id_category)->get();
+        return view('user.search', compact('prods', 'cats'));
+    }
 
     // GET /Product/slug={slug}
     public function Details($slug)

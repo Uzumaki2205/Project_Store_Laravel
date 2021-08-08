@@ -56,25 +56,24 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     @if (Auth::check())
-                        <div class="login-box">
-                            <select id="basic" class="selectpicker show-tick form-control" data-placeholder="Sign In"
-                                onchange="location=this.value;">
-                                <option>{{ Session('user')->name }}</option>
+                    <div class="login-box">
+                        <select id="basic" class="selectpicker show-tick form-control" data-placeholder="Sign In" onchange="location=this.value;">
+                            <option>{{ Session('user')->name }}</option>
 
-                                <option value="{{ route('InfoUser') }}">Thông tin</option>
+                            <option value="{{ route('InfoUser') }}">Thông tin</option>
 
-                                <option value="{{ Session('user')->id }}">Đăng xuất</option>
-                            </select>
-                        </div>
+                            <option value="{{ route('logout') }}">Đăng xuất</option>
+                        </select>
+                    </div>
                     @else
-                        <div class="login-box">
-                            <select id="basic" class="selectpicker show-tick form-control" data-placeholder="Sign In">
-                                <option>Đăng ký</option>
-                                <option>Đăng nhập</option>
-                            </select>
-                        </div>
+                    <div class="login-box">
+                        <select id="basic" class="selectpicker show-tick form-control" data-placeholder="Sign In" onchange="location=this.value;">
+                            <option value="{{ route('register') }}">Đăng ký</option>
+                            <option value="{{ route('login') }}">Đăng nhập</option>
+                        </select>
+                    </div>
                     @endif
-                    <div class="text-slid-box">
+                    <!-- <div class="text-slid-box">
                         <div id="offer-box" class="carouselTicker">
                             <ul class="offer-box">
                                 <li>
@@ -103,7 +102,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -117,12 +116,10 @@
             <div class="container">
                 <!-- Start Header Navigation -->
                 <div class="navbar-header">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
-                        aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <a class="navbar-brand" href="index.html"><img src="{{ asset('/Assets/images/logo.png') }}"
-                            class="logo" alt=""></a>
+                    <a class="navbar-brand" href="index.html"><img src="{{ asset('/Assets/images/logo.png') }}" class="logo" alt=""></a>
                 </div>
                 <!-- End Header Navigation -->
 
@@ -145,55 +142,52 @@
                         <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
 
                         @if (Auth::check())
-                            <li class="side-menu">
-                                <a href="#">
-                                    <i class="fa fa-shopping-bag"></i>
-                                    <span class="badge">{{ $carts->count() }}</span>
-                                    <p>Giỏ hàng</p>
-                                </a>
-                            </li>
+                        <li class="side-menu">
+                            <a href="#">
+                                <i class="fa fa-shopping-bag"></i>
+                                <span class="badge">{{ $carts->count() }}</span>
+                                <p>Giỏ hàng</p>
+                            </a>
+                        </li>
                         @endif
                     </ul>
                 </div>
                 <!-- End Atribute Navigation -->
             </div>
             @if (Auth::check())
-                <!-- Start Side Menu -->
-                <div class="side">
-                    <a href="#" class="close-side"><i class="fa fa-times"></i></a>
-                    <li class="cart-box">
-                        <ul class="cart-list">
-                            @foreach ($carts as $cart)
-                                <li>
-                                    <a href="#" class="photo"><img src="{{ $cart->product->image_product }}"
-                                            class="cart-thumb" alt="" /></a>
-                                    <h6><a href="#">{{ $cart->product->name_product }} </a></h6>
-                                    <p>{{ $cart->quantity }} - <span
-                                            class="price">{{ $cart->product->price_product }}</span></p>
-                                </li>
-                            @endforeach
+            <!-- Start Side Menu -->
+            <div class="side">
+                <a href="#" class="close-side"><i class="fa fa-times"></i></a>
+                <li class="cart-box">
+                    <ul class="cart-list">
+                        @foreach ($carts as $cart)
+                        <li>
+                            <a href="#" class="photo"><img src="{{ $cart->product->image_product }}" class="cart-thumb" alt="" /></a>
+                            <h6><a href="#">{{ $cart->product->name_product }} </a></h6>
+                            <p>{{ $cart->quantity }} - <span class="price">{{ $cart->product->price_product }}</span></p>
+                        </li>
+                        @endforeach
 
-                            {{-- <li>
+                        {{-- <li>
                                 <a href="#" class="photo"><img src="{{ url('/Assets/images/img-pro-02.jpg') }}"
-                                        class="cart-thumb" alt="" /></a>
-                                <h6><a href="#">Omnes ocurreret</a></h6>
-                                <p>1x - <span class="price">$60.00</span></p>
-                            </li>
-                            <li>
-                                <a href="#" class="photo"><img src="{{ url('/Assets/images/img-pro-03.jpg') }}"
-                                        class="cart-thumb" alt="" /></a>
-                                <h6><a href="#">Agam facilisis</a></h6>
-                                <p>1x - <span class="price">$40.00</span></p>
-                            </li> --}}
-                            <li class="total">
-                                <a href="{{ route('Cart') }}" class="btn btn-default hvr-hover btn-cart">Xem giỏ
-                                    hàng</a>
-                                <span class="float-right"><strong>Total</strong>: $180.00</span>
-                            </li>
-                        </ul>
-                    </li>
-                </div>
-                <!-- End Side Menu -->
+                        class="cart-thumb" alt="" /></a>
+                        <h6><a href="#">Omnes ocurreret</a></h6>
+                        <p>1x - <span class="price">$60.00</span></p>
+                </li>
+                <li>
+                    <a href="#" class="photo"><img src="{{ url('/Assets/images/img-pro-03.jpg') }}" class="cart-thumb" alt="" /></a>
+                    <h6><a href="#">Agam facilisis</a></h6>
+                    <p>1x - <span class="price">$40.00</span></p>
+                </li> --}}
+                <li class="total">
+                    <a href="{{ route('Cart') }}" class="btn btn-default hvr-hover btn-cart">Xem giỏ
+                        hàng</a>
+                    <span class="float-right"><strong>Total</strong>: $180.00</span>
+                </li>
+                </ul>
+                </li>
+            </div>
+            <!-- End Side Menu -->
             @endif
         </nav>
         <!-- End Navigation -->
@@ -294,8 +288,7 @@
                                             451</a></p>
                                 </li>
                                 <li>
-                                    <p><i class="fas fa-envelope"></i>Email: <a
-                                            href="mailto:contactinfo@gmail.com">lengocson2204@gmail.com</a></p>
+                                    <p><i class="fas fa-envelope"></i>Email: <a href="mailto:contactinfo@gmail.com">lengocson2204@gmail.com</a></p>
                                 </li>
                             </ul>
                         </div>

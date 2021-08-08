@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -69,6 +70,7 @@ class UserController extends Controller
             return redirect()->back()->with('status', 'Update thàng công!');
         } catch (Exception $e) {
             return abort(404, 'Update Fail');
+            //echo $e->getMessage();
         }
     }
 
@@ -79,5 +81,24 @@ class UserController extends Controller
             ->where('accept', 0)->where('is_active', 0)->get();
         $orders = $order->groupBy('code');
         return view('user.info', compact('user', 'orders'));
+    }
+
+    public function UpdateInfo(Request $request)
+    {
+        try {
+            $user = \App\User::Find($request->session()->get('user')->id);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->save();
+            return redirect()->back()->with('success', 'your message,here');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function Logout(Request $request)
+    {
+        Auth::logout();
+        return redirect('/login');
     }
 }

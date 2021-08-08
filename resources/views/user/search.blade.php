@@ -69,7 +69,7 @@
                                                 <img src="{{ asset($prod->image_product) }}" class="img-fluid" style="height: 180px" alt="{{ $prod->name_product }}">
                                                 <div class="mask-icon">
                                                     <ul>
-                                                        <li><a href="{{ $prod->slug_product }}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                                        <li><a href="/product/{{ $prod->slug_product }}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
                                                         <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a>
                                                         </li>
                                                     </ul>

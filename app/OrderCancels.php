@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class OrderCancels extends Model
 {
     protected $table = 'order_cancels';
+    // public $timestamps = false;
 
     public function order()
     {
