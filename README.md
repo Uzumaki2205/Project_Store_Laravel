@@ -31,3 +31,12 @@ MAIL_USERNAME=<username>
 MAIL_PASSWORD=<password>
 MAIL_ENCRYPTION=tls
 ```
+
+-   Chạy lệnh
+
+```bash
+- composer install (cài đặt các dependency cần thiết)
+- npm install (cài đặt các package npm)
+- npm run dev (build project)
+- php artisan serve
+```
